@@ -1,10 +1,10 @@
 import express, { Request, Response } from "express";
-import http, { IncomingMessage } from "http";
+import http from "http";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import config from "./config";
-import { WebSocket, WebSocketServer } from "ws";
+import { WebSocketServer } from "ws";
 import connectDB from "./db/database";
 
 // Import routes
@@ -13,16 +13,12 @@ import apiRoutes from "./routes/api.routes";
 import { TranscribeService } from "./transcribe/transcribe.service";
 import { AssemblyAIClient } from "./assemblyai/assemblyai.client";
 import { setupBullMQWorkers } from "./setup";
-import { notificationService, NotificationService } from "./notification/notification.service";
-// import { AssemblyAIStreamClient } from "./assemblyai/assemblyai.stream.client";
+import { notificationService } from "./notification/notification.service";
 
 // Create Express app
 let app = express();
 
 const port = config.port;
-
-// Connect to MongoDB
-// connectDB();
 
 // Middleware
 app.use(express.json());

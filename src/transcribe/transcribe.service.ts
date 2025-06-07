@@ -1,7 +1,5 @@
 import { WebSocket } from "ws";
-import { ApiError, internal } from "../utils/error.utils";
 import { IncomingMessage } from "http";
-import { SOAPScribeAgent } from "../soap/soap_scribe.agent";
 import { redisClient } from "../redis/redis.client";
 import { bullMQClient } from "../bullmq/bullmq.client";
 import { AssemblyAIClient } from "../assemblyai/assemblyai.client";
@@ -15,28 +13,14 @@ export class TranscribeService {
   private assemblyAIClient: AssemblyAIClient;
   private audioChunks: Map<string, Buffer[]>;
   private transcribedTexts: Map<string, string>;
-  // private assemblyAIStreamClient: AssemblyAIStreamClient;
+
 
   constructor(assemblyAIClient: AssemblyAIClient) {
     this.connections = new Map();
     this.assemblyAIClient = assemblyAIClient;
     this.audioChunks = new Map();
     this.transcribedTexts = new Map();
-    // this.assemblyAIStreamClient = assemblyAIStreamClient;
   }
-
-  //   /**
-  //    * Get WebSocketService singleton instance
-  //    */
-  //   public static getInstance(): WebSocketService {
-  //     if (!WebSocketService.instance) {
-  //       WebSocketService.instance = new WebSocketService(
-  //         new TranscribeService(new AssemblyAIStreamClient())
-  //       );
-  //     }
-  //     return WebSocketService.instance;
-  //   }
-
   private generateSessionId(): string {
     return `session_${Date.now()}_${Math.random()
       .toString(36)
@@ -141,7 +125,7 @@ export class TranscribeService {
   public getWebSocket(id: string): WebSocket {
     const connection = this.connections.get(id);
     if (!connection) {
-      throw internal(`WebSocket connection ${id} not found`);
+      throw new Error(`WebSocket connection ${id} not found`);
     }
     return connection;
   }

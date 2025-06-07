@@ -102,7 +102,6 @@ export class AssemblyAIStreamClient {
           );
 
         } else if (msgType === "Turn") { 
-          console.log("Turn:", data);
           const transcript = data.transcript || "";
           const formatted = data.turn_is_formatted;
           
