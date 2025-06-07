@@ -3,7 +3,7 @@ import http, { IncomingMessage } from "http";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
-import config from "./db/database.config";
+import config from "./config";
 import { WebSocket, WebSocketServer } from "ws";
 import connectDB from "./db/database";
 

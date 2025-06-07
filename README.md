@@ -1,69 +1,75 @@
 # ASHA Healthcare API
 
-Backend service for an AI healthcare agent built with Express.js, Node.js, and TypeScript.
+A real-time transcription and healthcare service built with Express.js, WebSocket, and TypeScript.
 
-## Features
+## Core Features
 
-- Express.js server with TypeScript
-- MongoDB integration with Mongoose
-- Authentication middleware
-- Error handling utilities
-- Environment configuration
+- Real-time audio transcription using AssemblyAI
+- WebSocket-based communication for streaming audio
+- BullMQ for background job processing
+- MongoDB integration
+- Notification system
 
 ## Prerequisites
 
-- Node.js (v14 or higher)
-- npm or yarn
-- MongoDB (local or cloud instance)
+- Docker and Docker Compose
+- AssemblyAI API Key
+- OpenAI API Key
 
-## Installation
+## Setup
 
-1. Clone the repository:
+### Using Docker Compose
+
+1. Create a `.env` file:
 ```bash
-git clone <repository-url>
-cd asha-transcribing-service
+ASSEMBLYAI_API_KEY=your-assemblyai-api-key
+OPENAI_API_KEY=your-openai-api-key
 ```
 
-2. Install dependencies:
+2. Start the services:
+```bash
+# Build
+docker-compose build
+
+# Start all services in the background
+docker-compose up -d
+
+# Stop all services
+docker-compose down
+```
+
+This will start main application at: http://localhost:8000
+
+
+### Local Development
+
+For local development without Docker:
+
+1. Install dependencies:
 ```bash
 npm install
 ```
 
-3. Create a `.env` file in the root directory with the following variables:
-```
-NODE_ENV=development
-PORT=3000
+2. Configure environment variables in `.env`:
+```bash
+ASSEMBLYAI_API_KEY=your-assemblyai-api-key
+OPENAI_API_KEY=your-openai-api-key
 MONGODB_URI=mongodb://localhost:27017/asha-health
-JWT_SECRET=your-secret-key
-JWT_EXPIRES_IN=1d
+REDIS_URL=redis://localhost:6379
 ```
 
-## Running the Application
-
-### Development Mode
+3. Start the application:
 ```bash
 npm run dev
 ```
 
-### Production Build
-```bash
-npm run build
-npm start
-```
-
-## Project Structure
-
-```
-src/
-├── config/         # Configuration files
-├── middleware/     # Express middleware
-├── utils/          # Utility functions
-└── index.ts        # Application entry point
-```
-
 ## API Endpoints
 
-- `GET /`: Root endpoint, returns a welcome message
+- `GET /`: Health check endpoint
+- `GET /ping`: Server status endpoint
+- `WS /transcribe`: WebSocket endpoint for real-time transcription
+- `WS /notifications`: WebSocket endpoint for real-time notifications
+- `API /api/v1/*`: REST API endpoints
 
 ## License
 
