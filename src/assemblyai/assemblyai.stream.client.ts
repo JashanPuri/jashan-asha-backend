@@ -49,12 +49,6 @@ export class AssemblyAIStreamClient {
   }
     
   private cleanup() {
-    // stopRequested = true;
-    // Save recorded audio to WAV file
-    // saveWavFile();
-    // Stop microphone if it's running
-
-    // Close WebSocket connection if it's open
     if (
       this.ws &&
       (this.ws.readyState == WebSocket.OPEN ||
@@ -108,14 +102,11 @@ export class AssemblyAIStreamClient {
 
           this.textChunksByTurns.set(data.turn_order, transcript);
 
-          // if (formatted) {
-          //   console.log("Formatted")
-          //   process.stdout.write("\r" + " ".repeat(80) + "\r");
-          //   console.log("Transcript: ", transcript);
-          // } else {
-          //   console.log("Not formatted")
-          //   process.stdout.write(`\r${transcript}`);
-          // }
+          if (formatted) {
+
+            process.stdout.write("\r" + " ".repeat(80) + "\r");
+            console.log(transcript);
+          }
 
         } else if (msgType === "Termination") {
           const audioDuration = data.audio_duration_seconds;
